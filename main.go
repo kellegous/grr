@@ -9,6 +9,8 @@ import (
 
 	"grr/cmds/create"
 	"grr/cmds/get"
+	"grr/cmds/help"
+	"grr/cmds/install"
 )
 
 const (
@@ -16,8 +18,10 @@ const (
 )
 
 var cmds = map[string]func(string, []string){
-	"init": create.Run,
-	"get":  get.Run,
+	"init":    create.Run,
+	"get":     get.Run,
+	"install": install.Run,
+	"help":    help.Run,
 }
 
 // FindManifest ...
@@ -40,27 +44,6 @@ func FindManifest() (string, error) {
 
 		dir = par
 	}
-}
-
-func cmdInit() {
-	// if manifest exists, done.
-	// write new manifest
-}
-
-func cmdGet() {
-	// build GOPATH, execute go get
-	// walk the deps/src directory and build manifest
-	// write manifest
-}
-
-func cmdRestore() {
-	// read manifest
-	// for each repo, make sure the repo is at the right rev and cloned
-}
-
-func cmdInstall() {
-	// read manifest
-	// for each import, build GOPATH, execute go install
 }
 
 func getWorkingDir(dir string) (string, error) {
@@ -93,9 +76,4 @@ func main() {
 	}
 
 	h(wd, args)
-
-	// init
-	// get
-	// restore
-	// install
 }
