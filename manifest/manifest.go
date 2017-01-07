@@ -107,6 +107,11 @@ func (m *Manifest) GoPath() []string {
 	}
 }
 
+// Path ...
+func (m *Manifest) Path() string {
+	return m.dir
+}
+
 // FindManifestIn ...
 func FindManifestIn(dir string) (string, error) {
 	for {

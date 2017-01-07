@@ -24,6 +24,12 @@ func findReposFor(m *manifest.Manifest) ([]*manifest.Repo, error) {
 				return err
 			}
 
+			rel, err := filepath.Rel(m.Path(), repo.Dir)
+			if err != nil {
+				return err
+			}
+			repo.Dir = rel
+
 			repos = append(repos, repo)
 
 			return filepath.SkipDir
