@@ -8,7 +8,7 @@ import (
 	"path/filepath"
 	"strings"
 
-	"grr/manifest"
+	"github.com/kellegous/grr/manifest"
 )
 
 // GitDir ...

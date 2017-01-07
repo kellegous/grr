@@ -7,10 +7,10 @@ import (
 	"os"
 	"path/filepath"
 
-	"grr/cmds/create"
-	"grr/cmds/get"
-	"grr/cmds/help"
-	"grr/cmds/install"
+	"github.com/kellegous/grr/cmds/create"
+	"github.com/kellegous/grr/cmds/get"
+	"github.com/kellegous/grr/cmds/help"
+	"github.com/kellegous/grr/cmds/install"
 )
 
 const (

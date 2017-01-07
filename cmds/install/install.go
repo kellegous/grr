@@ -3,8 +3,8 @@ package install
 import (
 	"log"
 
-	"grr/internal"
-	"grr/manifest"
+	"github.com/kellegous/grr/internal"
+	"github.com/kellegous/grr/manifest"
 )
 
 // Run ...

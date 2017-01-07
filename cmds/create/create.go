@@ -3,7 +3,7 @@ package create
 import (
 	"log"
 
-	"grr/manifest"
+	"github.com/kellegous/grr/manifest"
 )
 
 // Run ...

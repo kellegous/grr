@@ -5,9 +5,9 @@ import (
 	"os"
 	"path/filepath"
 
-	"grr/git"
-	"grr/internal"
-	"grr/manifest"
+	"github.com/kellegous/grr/git"
+	"github.com/kellegous/grr/internal"
+	"github.com/kellegous/grr/manifest"
 )
 
 func findReposFor(m *manifest.Manifest) ([]*manifest.Repo, error) {
