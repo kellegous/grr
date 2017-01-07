@@ -17,7 +17,7 @@ func Run(dir string, args []string) {
 
 	// TODO(knorton): This should ensure that all repos are present.
 	for _, arg := range m.Imports {
-		if err := internal.Go(dir, "install", arg); err != nil {
+		if err := internal.Go(&m, "install", arg); err != nil {
 			log.Panic(err)
 		}
 	}

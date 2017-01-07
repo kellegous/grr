@@ -43,7 +43,7 @@ func Run(dir string, args []string) {
 	}
 
 	for _, arg := range args {
-		if err := internal.Go(dir, "get", "-u", arg); err != nil {
+		if err := internal.Go(&m, "get", "-u", arg); err != nil {
 			log.Panic(err)
 		}
 

@@ -99,6 +99,14 @@ func (m *Manifest) DepsPath() string {
 	return filepath.Join(m.dir, DepsDir)
 }
 
+// GoPath ...
+func (m *Manifest) GoPath() []string {
+	return []string{
+		m.DepsPath(),
+		m.dir,
+	}
+}
+
 // FindManifestIn ...
 func FindManifestIn(dir string) (string, error) {
 	for {

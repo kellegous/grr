@@ -4,16 +4,14 @@ import (
 	"fmt"
 	"os"
 	"os/exec"
-	"path/filepath"
 	"strings"
+
+	"github.com/kellegous/grr/manifest"
 )
 
-// DepsDir ...
-const DepsDir = "deps"
-
-func envFor(dir string) []string {
+func envFor(m *manifest.Manifest) []string {
 	env := os.Environ()
-	val := fmt.Sprintf("GOPATH=%s:%s", filepath.Join(dir, DepsDir), dir)
+	val := fmt.Sprintf("GOPATH=%s", strings.Join(m.GoPath(), ":"))
 	for i, v := range env {
 		if strings.HasPrefix(v, "GOPATH=") {
 			env[i] = val
@@ -25,9 +23,9 @@ func envFor(dir string) []string {
 }
 
 // Go ...
-func Go(dir string, args ...string) error {
+func Go(m *manifest.Manifest, args ...string) error {
 	c := exec.Command("go", args...)
-	c.Env = envFor(dir)
+	c.Env = envFor(m)
 	c.Stdout = os.Stdout
 	c.Stderr = os.Stderr
 	c.Stdin = os.Stdin

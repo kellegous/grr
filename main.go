@@ -1,11 +1,9 @@
 package main
 
 import (
-	"errors"
 	"flag"
 	"log"
 	"os"
-	"path/filepath"
 
 	"github.com/kellegous/grr/cmds/create"
 	"github.com/kellegous/grr/cmds/get"
@@ -13,37 +11,11 @@ import (
 	"github.com/kellegous/grr/cmds/install"
 )
 
-const (
-	manifestFile = "grr.json"
-)
-
 var cmds = map[string]func(string, []string){
 	"init":    create.Run,
 	"get":     get.Run,
 	"install": install.Run,
 	"help":    help.Run,
-}
-
-// FindManifest ...
-func FindManifest() (string, error) {
-	dir, err := os.Getwd()
-	if err != nil {
-		return "", err
-	}
-
-	for {
-		path := filepath.Join(dir, manifestFile)
-		if _, err := os.Stat(path); err == nil {
-			return path, nil
-		}
-
-		par := filepath.Dir(dir)
-		if par == dir {
-			return "", errors.New("manifest not found")
-		}
-
-		dir = par
-	}
 }
 
 func getWorkingDir(dir string) (string, error) {
