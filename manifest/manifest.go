@@ -9,7 +9,7 @@ import (
 )
 
 const (
-	manifestFilename = "manfiest"
+	manifestFilename = "manifest"
 	depsDir          = "vendor"
 )
 
