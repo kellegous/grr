@@ -8,10 +8,9 @@ import (
 	"path/filepath"
 )
 
-// ManifestFilename ...
 const (
-	ManifestFilename = "grr.json"
-	DepsDir          = "deps"
+	manifestFilename = "manfiest"
+	depsDir          = "vendor"
 )
 
 // ErrManifestNotFound ...
@@ -45,15 +44,21 @@ func (m *Manifest) AddImport(name string) {
 
 // CreateIn ...
 func CreateIn(dir string) error {
-	return ioutil.WriteFile(
-		filepath.Join(dir, ManifestFilename),
-		[]byte("{}\n"),
-		os.ModePerm)
+	par := filepath.Join(dir, depsDir)
+	dst := filepath.Join(par, manifestFilename)
+
+	if _, err := os.Stat(par); err != nil {
+		if err := os.MkdirAll(par, os.ModePerm); err != nil {
+			return err
+		}
+	}
+
+	return ioutil.WriteFile(dst, []byte("{}\n"), os.ModePerm)
 }
 
 // ExistsIn ...
 func ExistsIn(dir string) bool {
-	if _, err := os.Stat(filepath.Join(dir, ManifestFilename)); err == nil {
+	if _, err := os.Stat(filepath.Join(dir, depsDir, manifestFilename)); err == nil {
 		return true
 	}
 	return false
@@ -78,6 +83,10 @@ func (m *Manifest) LoadFrom(dir string) error {
 
 	m.dir = dir
 
+	for _, repo := range m.Repos {
+		repo.Dir = filepath.Join(dir, repo.Dir)
+	}
+
 	return nil
 }
 
@@ -89,14 +98,14 @@ func (m *Manifest) Save() error {
 	}
 
 	return ioutil.WriteFile(
-		filepath.Join(m.dir, ManifestFilename),
+		filepath.Join(m.dir, depsDir, manifestFilename),
 		b,
 		os.ModePerm)
 }
 
 // DepsPath ...
 func (m *Manifest) DepsPath() string {
-	return filepath.Join(m.dir, DepsDir)
+	return filepath.Join(m.dir, depsDir)
 }
 
 // GoPath ...
@@ -115,7 +124,7 @@ func (m *Manifest) Path() string {
 // FindManifestIn ...
 func FindManifestIn(dir string) (string, error) {
 	for {
-		path := filepath.Join(dir, ManifestFilename)
+		path := filepath.Join(dir, depsDir, manifestFilename)
 		if _, err := os.Stat(path); err == nil {
 			return path, nil
 		}

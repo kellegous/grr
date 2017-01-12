@@ -50,6 +50,42 @@ func readRev(dir string) (string, error) {
 		"HEAD")
 }
 
+func clone(dir, url string) error {
+	return exec.Command("git", "clone", url, dir).Run()
+}
+
+func fetch(dir string) error {
+	return exec.Command("git", "fetch", fmt.Sprintf("--gitdir=%s", dir)).Run()
+}
+
+func resetTo(dir, rev string) error {
+	return exec.Command("git", "reset", fmt.Sprintf("--gitdir=%s", dir), rev).Run()
+}
+
+// Restore ...
+func Restore(r *manifest.Repo) error {
+	if _, err := os.Stat(r.Dir); err != nil {
+		if err := clone(r.Dir, r.URL); err != nil {
+			return err
+		}
+	}
+
+	rc, err := Read(r.Dir)
+	if err != nil {
+		return err
+	}
+
+	if rc.Rev == r.Rev {
+		return nil
+	}
+
+	if err := fetch(r.Dir); err != nil {
+		return err
+	}
+
+	return resetTo(r.Dir, r.Rev)
+}
+
 // Read ...
 func Read(dir string) (*manifest.Repo, error) {
 	url, err := readURL(dir)

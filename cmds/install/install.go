@@ -3,6 +3,7 @@ package install
 import (
 	"log"
 
+	"github.com/kellegous/grr/git"
 	"github.com/kellegous/grr/internal"
 	"github.com/kellegous/grr/manifest"
 )
@@ -15,7 +16,12 @@ func Run(dir string, args []string) {
 		log.Panic(err)
 	}
 
-	// TODO(knorton): This should ensure that all repos are present.
+	for _, repo := range m.Repos {
+		if err := git.Restore(repo); err != nil {
+			log.Panic(err)
+		}
+	}
+
 	for _, arg := range m.Imports {
 		if err := internal.Go(&m, "install", arg); err != nil {
 			log.Panic(err)
