@@ -55,11 +55,11 @@ func clone(dir, url string) error {
 }
 
 func fetch(dir string) error {
-	return exec.Command("git", "fetch", fmt.Sprintf("--gitdir=%s", dir)).Run()
+	return exec.Command("git", fmt.Sprintf("--gitdir=%s", dir), "fetch").Run()
 }
 
 func resetTo(dir, rev string) error {
-	return exec.Command("git", "reset", fmt.Sprintf("--gitdir=%s", dir), rev).Run()
+	return exec.Command("git", fmt.Sprintf("--gitdir=%s", dir), "reset", rev).Run()
 }
 
 // Restore ...
