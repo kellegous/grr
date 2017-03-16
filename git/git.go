@@ -59,7 +59,11 @@ func fetch(dir string) error {
 }
 
 func resetTo(dir, rev string) error {
-	return exec.Command("git", fmt.Sprintf("--git-dir=%s", filepath.Join(dir, ".git")), "reset", rev).Run()
+	return exec.Command("git",
+		fmt.Sprintf("--git-dir=%s", filepath.Join(dir, ".git")),
+		"reset",
+		rev,
+		"--hard").Run()
 }
 
 // Restore ...
